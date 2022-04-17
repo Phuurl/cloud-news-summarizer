@@ -1,0 +1,12 @@
+{
+  "scriptFile": "__init__.py",
+  "bindings": [
+    {
+      "name": "msg",
+      "type": "queueTrigger",
+      "direction": "in",
+      "queueName": "processqueue",
+      "connection": "TABLE_SA_CONNECTION"
+    }
+  ]
+}
