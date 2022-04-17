@@ -1,4 +1,3 @@
-import datetime
 import logging
 import os
 import time
@@ -58,7 +57,6 @@ def get_rss(url: str, last_run: time.struct_time) -> Union[feedparser.FeedParser
 
 def process_entry(entry: feedparser.util.FeedParserDict, last_run: time.struct_time,
                   queue_client: queue.QueueClient) -> None:
-    logging.info(type(queue_client))
     if entry.published_parsed > last_run:
         logging.info("New entry: {} {}".format(entry.title, entry.link))
         queue_client.send_message(bytes(entry.link, "utf-8"))
@@ -79,6 +77,9 @@ def main(timer: func.TimerRequest) -> None:
                                                                 message_encode_policy=queue.BinaryBase64EncodePolicy(),
                                                                 message_decode_policy=queue.BinaryBase64DecodePolicy())
         for entry in feed.entries:
-            process_entry(entry, time.gmtime(checkpoint), queue_client)
+            if checkpoint is not None:
+                process_entry(entry, time.gmtime(checkpoint), queue_client)
+            else:
+                process_entry(entry, time.gmtime(time.time() - (30 * 60)), queue_client)
 
     set_checkpoint(CONNECTION_STRING, TABLE_NAME, "aws", ENVIRONMENT)

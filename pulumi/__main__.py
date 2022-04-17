@@ -8,7 +8,7 @@ prefix = config.require("prefix")
 
 
 resource_group = azure.resources.ResourceGroup("rg",
-    resource_group_name="{}-cloud-news-summariser".format(prefix))
+    resource_group_name="{}-cloud-news-summarizer".format(prefix))
 
 account = azure.storage.StorageAccount("table-sa",
     resource_group_name=resource_group.name,
@@ -16,7 +16,7 @@ account = azure.storage.StorageAccount("table-sa",
         name=azure.storage.SkuName.STANDARD_ZRS,
     ),
     kind=azure.storage.Kind.STORAGE_V2,
-    account_name="{}cloudnewstable".format(prefix))
+    account_name="{}cloudnews".format(prefix))
 
 checkpoint_table = azure.storage.Table("checkpoint-table",
     account_name=account.name,
@@ -39,6 +39,10 @@ pulumi.export("sa-name", account.name)
 pulumi.export("table-name", checkpoint_table.name)
 pulumi.export("queue-name", process_queue.name)
 pulumi.export("cognitive-name", cognitive_account.name)
+cognitive_endpoint = pulumi.Output.all(resource_group.name, cognitive_account.name)\
+    .apply(lambda args: azure.cognitiveservices.get_account(resource_group_name=args[0], account_name=args[1]))\
+    .apply(lambda properties: properties.properties.endpoint)
+pulumi.export("cognitive-endpoint", cognitive_endpoint)
 
 # Connection string construction
 # primary_key = pulumi.Output.all(resource_group.name, account.name) \
