@@ -1,3 +1,5 @@
+pulumi/Pulumi.prod.yaml
+
 
 # Created by https://www.toptal.com/developers/gitignore/api/python,azurefunctions,jetbrains+all,visualstudiocode,windows,macos,linux
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,azurefunctions,jetbrains+all,visualstudiocode,windows,macos,linux
