@@ -1,9 +1,9 @@
 # cloud-news-summarizer
-An Azure Function and associated resources that takes RSS feeds of cloud news (eg _AWS What's New_), generates a 3-sentence summary with Azure' Text Analytics, and sends the summary to Slack (with a link to the original post).
+An Azure Function and associated resources that takes RSS feeds of cloud news (eg _AWS What's New_), generates a 3-sentence summary with Azure's Text Analytics, and sends the summary to Slack (with a link to the original post).
 
 The Function polls the relevant RSS feeds every 30 minutes.
 
-It is expected that both the Function and the Language Cognitive Services usage will fall within the free tier on Azure, or have very low cost (< $1). Other resource usage is negligible and will likely also be free. For additional pricing information, see
+It is expected that both the Function and the Language Cognitive Services usage will fall within the free tier on Azure, or have very low cost (cents per month). Other resource usage is negligible and will likely also be free. For additional pricing information, see
 - [Functions pricing](https://azure.microsoft.com/en-us/pricing/details/functions/)
 - [Language Cognitive Services pricing](https://azure.microsoft.com/en-gb/pricing/details/cognitive-services/language-service/)
 

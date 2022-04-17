@@ -43,14 +43,3 @@ cognitive_endpoint = pulumi.Output.all(resource_group.name, cognitive_account.na
     .apply(lambda args: azure.cognitiveservices.get_account(resource_group_name=args[0], account_name=args[1]))\
     .apply(lambda properties: properties.properties.endpoint)
 pulumi.export("cognitive-endpoint", cognitive_endpoint)
-
-# Connection string construction
-# primary_key = pulumi.Output.all(resource_group.name, account.name) \
-#     .apply(lambda args: azure.storage.list_storage_account_keys(
-#         resource_group_name=args[0],
-#         account_name=args[1]
-#     )).apply(lambda accountKeys: accountKeys.keys[0].value)
-# connection_string = "DefaultEndpointsProtocol=https;AccountName={};AccountKey={};" \
-#                     "EndpointSuffix=core.windows.net".format(account.name, primary_key)
-
-# pulumi.export("primary_storage_key", primary_key)
