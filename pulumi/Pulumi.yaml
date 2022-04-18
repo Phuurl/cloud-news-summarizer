@@ -1,0 +1,6 @@
+name: cloud-news-summarizer
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+description: Azure resources to take and summarize cloud news articles
