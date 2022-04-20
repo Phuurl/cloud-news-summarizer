@@ -12,6 +12,7 @@ resource_group = azure.resources.ResourceGroup("rg",
 
 account = azure.storage.StorageAccount("table-sa",
     resource_group_name=resource_group.name,
+    allow_blob_public_access=False,
     sku=azure.storage.SkuArgs(
         name=azure.storage.SkuName.STANDARD_ZRS,
     ),
