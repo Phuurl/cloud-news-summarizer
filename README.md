@@ -14,21 +14,27 @@ It is expected that both the Function and the Language Cognitive Services usage 
 Supporting resources are maintained in IaC with Pulumi. 
 1. Head to the [pulumi/](./pulumi) directory and follow the instructions to deploy that stack.
 2. Deploy the Azure Functions in the [functions/](./functions) directory using either the Functions CLI, or the VS Code extension, choosing the `python3.9` runtime. Ensure that you set the required Applications Settings as detailed below in the deployed Function App resource.
-   - Note: If you deployed the Functions before setting the below config in the Function App, you may need to redeploy the functions for it to take effect
+   - Note: If you deployed the Functions before setting the below config in the Function App resource, you may need to redeploy the functions for it to take effect.
 
 The following Application Settings are required to be present on the deployed Function App:
+- `AWS_ENABLED`: whether to poll for AWS news - set to `1` or `true` to enable
+- `AZURE_ENABLED`: whether to poll for Azure news - set to `1` or `true` to enable
 - `TABLE_SA_CONNECTION`: connection string for storage account created in Pulumi - _available in your Storage Account resource in the Portal_
 - `TABLE_NAME`: table name within storage account - _listed as a Pulumi output_
 - `ENVIRONMENT`: table row key - _string to differentiate multiple deployments, can be anything alphanumeric, eg `prod`_
-- `QUEUE_NAME`: queue name within storage account - _listed as a Pulumi output_
+- `TIMER_QUEUE_NAME`: timer queue name within storage account - _listed as a Pulumi output_
+- `PROCESS_QUEUE_NAME`: processing queue name within storage account - _listed as a Pulumi output_
 - `COGNITIVE_ENDPOINT`: endpoint URL (including `https://`) for the cognitive services resource - _listed as a Pulumi output_
-- `COGNITIVE_KEY`: key for the cognitive services resource - _available in your Language resource in the Portal_
-- `SLACK_WEBHOOK`: webhook URL for sending to Slack - _see the [Slack docs](https://api.slack.com/messaging/webhooks) if you aren't sure_
+- `COGNITIVE_KEY`: key for the Cognitive Services resource - _available in your Language resource in the Portal_
+- `AWS_SLACK_WEBHOOK`: webhook URL for sending AWS news to Slack (not required if `AWS_ENABLED` is unset) - _see the [Slack docs](https://api.slack.com/messaging/webhooks) if you aren't sure_
+- `AZURE_SLACK_WEBHOOK`: webhook URL for sending Azure news to Slack (not required if `AZURE_ENABLED` is unset) - _see the [Slack docs](https://api.slack.com/messaging/webhooks) if you aren't sure_
 - `SLACK_FAILURE_WEBHOOK`: webhook URL for processing failure alerts to Slack - _can be the same or different to the normal Slack webhook (ie optionally send failures to a different channel)_
 
 ## Current feeds supported
 Now:
 - AWS What's New (https://aws.amazon.com/about-aws/whats-new/recent/feed/)
+- Azure Updates (https://azurecomcdn.azureedge.net/en-gb/updates/feed/)
 
 Next:
-- Azure Updates (https://azurecomcdn.azureedge.net/en-gb/updates/feed/)
+- GCP News (https://cloudblog.withgoogle.com/rss/)
+

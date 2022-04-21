@@ -24,6 +24,11 @@ checkpoint_table = azure.storage.Table("checkpoint-table",
     resource_group_name=resource_group.name,
     table_name="rsscheckpoint")
 
+timer_queue = azure.storage.Queue("timer-queue",
+    account_name=account.name,
+    resource_group_name=resource_group.name,
+    queue_name="timerqueue")
+
 process_queue = azure.storage.Queue("process-queue",
     account_name=account.name,
     resource_group_name=resource_group.name,
@@ -38,7 +43,8 @@ cognitive_account = azure.cognitiveservices.Account("cognitive-account",
 pulumi.export("rg-name", resource_group.name)
 pulumi.export("sa-name", account.name)
 pulumi.export("table-name", checkpoint_table.name)
-pulumi.export("queue-name", process_queue.name)
+pulumi.export("timer-queue-name", timer_queue.name)
+pulumi.export("process-queue-name", process_queue.name)
 pulumi.export("cognitive-name", cognitive_account.name)
 cognitive_endpoint = pulumi.Output.all(resource_group.name, cognitive_account.name)\
     .apply(lambda args: azure.cognitiveservices.get_account(resource_group_name=args[0], account_name=args[1]))\
