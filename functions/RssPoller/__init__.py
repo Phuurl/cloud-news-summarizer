@@ -73,7 +73,7 @@ def get_rss(url: str, cloud: str, last_run: time.struct_time) -> Union[feedparse
 def process_entry(entry: feedparser.util.FeedParserDict, cloud: str, last_run: time.struct_time,
                   queue_client: queue.QueueClient) -> None:
     if entry.published_parsed > last_run:
-        logging.info("New entry: {} {}".format(entry.title, entry.link))
+        logging.info("New entry: {} {} {}".format(entry.title, entry.link, time.mktime(entry.published_parsed)))
         queue_client.send_message(bytes("{}{}{}".format(cloud, DELIMITER, entry.link), "utf-8"))
         logging.info("Added `{}{}{}` to queue".format(cloud, DELIMITER, entry.link))
 
