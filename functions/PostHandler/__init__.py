@@ -1,10 +1,8 @@
-from collections import namedtuple
 import json
 import logging
 import os
 
 import azure.functions as func
-import bs4
 import requests
 from bs4 import BeautifulSoup
 import azure.ai.textanalytics as textanalytics
@@ -21,7 +19,7 @@ AZURE_SLACK_WEBHOOK = os.getenv("AZURE_SLACK_WEBHOOK", "")
 DELIMITER = "§"
 
 
-def aws_article_text(soup: bs4.BeautifulSoup) -> dict:
+def aws_article_text(soup: BeautifulSoup) -> dict:
     article_title = soup.title.text
     article_paragraphs = soup.find_all("div", class_="aws-text-box")
 
@@ -32,7 +30,7 @@ def aws_article_text(soup: bs4.BeautifulSoup) -> dict:
     return {"title": article_title, "text": article_text}
 
 
-def azure_article_text(soup: bs4.BeautifulSoup) -> dict:
+def azure_article_text(soup: BeautifulSoup) -> dict:
     article_title = soup.title.text.split("|")
     article_div = soup.find("div", class_="row-divided")
     article_p = article_div.find_all("p")
