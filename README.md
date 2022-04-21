@@ -14,7 +14,7 @@ It is expected that both the Function and the Language Cognitive Services usage 
 Supporting resources are maintained in IaC with Pulumi. 
 1. Head to the [pulumi/](./pulumi) directory and follow the instructions to deploy that stack.
 2. Deploy the Azure Functions in the [functions/](./functions) directory using either the Functions CLI, or the VS Code extension, choosing the `python3.9` runtime. Ensure that you set the required Applications Settings as detailed below in the deployed Function App resource.
-   - Note: If you deployed the Functions before setting the below config in the Function App, you may need to redeploy the functions for it to take effect
+   - Note: If you deployed the Functions before setting the below config in the Function App resource, you may need to redeploy the functions for it to take effect.
 
 The following Application Settings are required to be present on the deployed Function App:
 - `AWS_ENABLED`: whether to poll for AWS news - set to `1` or `true` to enable
