@@ -54,8 +54,8 @@ def get_rss(url: str, cloud: str, last_run: time.struct_time) -> Union[feedparse
                 logging.info("Feed not updated since last check")
                 return None
         except Exception as e:
-            logging.warning("Exception checking {} feed publish timestamp: {}".format(cloud, e))
-            return None
+            logging.error("Exception checking {} feed publish timestamp: {}".format(cloud, e))
+            raise e
     elif cloud == "azure":
         try:
             if feed.feed.updated_parsed > last_run:
@@ -64,8 +64,8 @@ def get_rss(url: str, cloud: str, last_run: time.struct_time) -> Union[feedparse
                 logging.info("Feed not updated since last check")
                 return None
         except Exception as e:
-            logging.warning("Exception checking {} feed publish timestamp: {}".format(cloud, e))
-            return None
+            logging.error("Exception checking {} feed publish timestamp: {}".format(cloud, e))
+            raise e
     else:
         raise NotImplementedError("unexpected cloud: {}".format(cloud))
 
