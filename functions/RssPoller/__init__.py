@@ -54,8 +54,8 @@ def get_rss(url: str, cloud: str, last_run: time.struct_time) -> Union[feedparse
                 logging.info("Feed not updated since last check")
                 return None
         except Exception as e:
-            logging.warning("Exception checking {} feed publish timestamp: {}".format(cloud, e))
-            return feed
+            logging.error("Exception checking {} feed publish timestamp: {}".format(cloud, e))
+            raise e
     elif cloud == "azure":
         try:
             if feed.feed.updated_parsed > last_run:
@@ -64,8 +64,8 @@ def get_rss(url: str, cloud: str, last_run: time.struct_time) -> Union[feedparse
                 logging.info("Feed not updated since last check")
                 return None
         except Exception as e:
-            logging.warning("Exception checking {} feed publish timestamp: {}".format(cloud, e))
-            return feed
+            logging.error("Exception checking {} feed publish timestamp: {}".format(cloud, e))
+            raise e
     else:
         raise NotImplementedError("unexpected cloud: {}".format(cloud))
 
@@ -90,17 +90,27 @@ def main(msg: func.QueueMessage) -> None:
                                      ENVIRONMENT)
     article_checkpoint = get_checkpoint(CONNECTION_STRING, TABLE_NAME, "{}-{}".format(cloud, ARTICLE_CHECKPOINT_KEY),
                                         ENVIRONMENT)
+    earliest_allowed_checkpoint = time.time() - ((60 * 60) * 72)  # 72 hours ago
 
     if feed_checkpoint is not None:
-        logging.info("Using {} as FEED checkpoint".format(feed_checkpoint))
-        feed = get_rss(feed_url, cloud, time.gmtime(feed_checkpoint))
+        if feed_checkpoint < earliest_allowed_checkpoint:
+            logging.warning("FEED checkpoint {} is too old (>72hrs) - using current time minus 30m".format(feed_checkpoint))
+            feed = get_rss(feed_url, cloud, time.gmtime(time.time() - (30 * 60)))
+        else:
+            logging.info("Using {} as FEED checkpoint".format(feed_checkpoint))
+            feed = get_rss(feed_url, cloud, time.gmtime(feed_checkpoint))
     else:
         logging.info("No FEED checkpoint - using current time minus 30m")
         feed = get_rss(feed_url, cloud, time.gmtime(time.time() - (30 * 60)))
 
     if feed is not None:
         if article_checkpoint is not None:
-            logging.info("Using {} as ARTICLE checkpoint".format(article_checkpoint))
+            if article_checkpoint < earliest_allowed_checkpoint:
+                logging.warning("ARTICLE checkpoint {} is too old (>72hrs) - using current time minus 120m".format(
+                    article_checkpoint))
+                article_checkpoint = None
+            else:
+                logging.info("Using {} as ARTICLE checkpoint".format(article_checkpoint))
         else:
             logging.info("No ARTICLE checkpoint - using current time minus 120m")
 
