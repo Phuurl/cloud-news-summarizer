@@ -3,8 +3,9 @@ An Azure Function and associated resources that takes RSS feeds of cloud news (e
 
 The Function polls the relevant RSS feeds every 30 minutes.
 
-It is expected that both the Function and the Language Cognitive Services usage will fall within the free tier on Azure, or have very low cost (cents per month). Other resource usage is negligible and will likely also be free. For additional pricing information, see
+It is expected that the total usage cost of all the included resources (Functions, Storage Accounts, and Language Cognitive Services) will be approximately $1/month. For additional pricing information, see
 - [Functions pricing](https://azure.microsoft.com/en-us/pricing/details/functions/)
+- [Storage Account pricing](https://azure.microsoft.com/en-gb/pricing/details/storage/)
 - [Language Cognitive Services pricing](https://azure.microsoft.com/en-gb/pricing/details/cognitive-services/language-service/)
 
 ## Architecture

@@ -88,6 +88,7 @@ def main(msg: func.QueueMessage) -> None:
             else:
                 logging.info("Summary:\n{}".format(" ".join([sentence.text for sentence in result[0].sentences])))
                 slack_blocks = {
+                    "text": article["title"],
                     "blocks": [
                         {
                             "type": "section",
