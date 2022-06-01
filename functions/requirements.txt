@@ -4,7 +4,7 @@
 
 azure-functions
 
-azure-ai-textanalytics~=5.2.0b3
+azure-ai-textanalytics~=5.2.0b4
 azure-data-tables~=12.3.0
 azure-storage-queue~=12.2.0
 beautifulsoup4~=4.11.1
