@@ -78,7 +78,7 @@ def main(msg: func.QueueMessage) -> None:
         summarise_client = create_client()
         poller = summarise_client.begin_analyze_actions(
             documents=[article["text"]],
-            actions=[textanalytics.ExtractSummaryAction(max_sentance_count=3)])
+            actions=[textanalytics.ExtractiveSummaryAction(max_sentance_count=3)])
 
         summarise_results = poller.result()
         for result in summarise_results:
