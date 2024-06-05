@@ -21,7 +21,7 @@ DELIMITER = "§"
 
 def aws_article_text(soup: BeautifulSoup) -> dict:
     article_title = soup.title.text
-    article_paragraphs = soup.find_all("div", class_="aws-text-box")
+    article_paragraphs = soup.find_all("div", class_="wn-body")
 
     article_text = ""
     for p in article_paragraphs:
